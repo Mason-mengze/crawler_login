@@ -39,12 +39,12 @@ class ZfLogin:
         code = self.sess.get(self.code_url, headers=self.headers).content
         ocr = ddddocr.DdddOcr(beta=True, show_ad=False)
         res = ocr.classification(code)
-        print(res)
+        print(f"验证码为：{res}")
         # 对密码进行加密
         en_password = self.get_rsa(self.password, modulus, exponent)
         # 登录
         login_data = {
-            "csrftoken": tokens,  # csrftoken不传也没问题，而且获取解析tokens这个比较耗时
+            "csrftoken": tokens,  # 实际测试csrftoken不传也没问题，但是为了防止以后出现问题，还是加上吧
             "yhm": self.username,
             "mm": en_password,
             'mm': en_password,
