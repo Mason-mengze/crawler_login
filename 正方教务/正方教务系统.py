@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 import rsa
 import binascii
 from fake_useragent import UserAgent
+import ddddocr
+ocr = ddddocr.DdddOcr(beta=True, show_ad=False)
 
 
 class ZfLogin:
@@ -17,6 +19,7 @@ class ZfLogin:
         self.bast_url = "https://jwxt.gcc.edu.cn"  # 根据自己学校的教务系统进行修改
         self.key_url = parse.urljoin(self.bast_url, '/xtgl/login_getPublicKey.html')
         self.login_url = parse.urljoin(self.bast_url, '/xtgl/login_slogin.html')
+        self.code_url = parse.urljoin(self.bast_url, '/kaptcha')
         self.headers = {'User-Agent': str(UserAgent().random),
                         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,'
                                   '*/*;q=0.8,application/signed-exchange;v=b3',
@@ -32,6 +35,11 @@ class ZfLogin:
         response_data = self.sess.get(self.key_url, headers=self.headers).json()
         modulus = response_data["modulus"]
         exponent = response_data["exponent"]
+
+        # 获取验证码
+        code = self.sess.get(self.code_url, headers=self.headers).content
+        res = ocr.classification(code)
+        print(res)
         # 对密码进行加密
         en_password = self.get_rsa(self.password, modulus, exponent)
         # 登录
@@ -39,7 +47,8 @@ class ZfLogin:
             "csrftoken": tokens,  # csrftoken不传也没问题，而且获取解析tokens这个比较耗时
             "yhm": self.username,
             "mm": en_password,
-            'mm': en_password
+            'mm': en_password,
+            'yzm': res
         }
         response = self.sess.post(self.login_url, headers=self.headers, data=login_data)
         print(response.text)
@@ -64,7 +73,9 @@ class ZfLogin:
 
 
 if __name__ == '__main__':
-    username = input("请输入学号：")
-    password = input("请输入密码：")
+    # username = input("请输入学号：")
+    # password = input("请输入密码：")
+    username = "201912340022"
+    password = "Mz1258012581"
     zf = ZfLogin(username, password)
     zf.login()
