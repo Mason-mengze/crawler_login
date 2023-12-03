@@ -5,7 +5,6 @@ import rsa
 import binascii
 from fake_useragent import UserAgent
 import ddddocr
-ocr = ddddocr.DdddOcr(beta=True, show_ad=False)
 
 
 class ZfLogin:
@@ -38,6 +37,7 @@ class ZfLogin:
 
         # 获取验证码
         code = self.sess.get(self.code_url, headers=self.headers).content
+        ocr = ddddocr.DdddOcr(beta=True, show_ad=False)
         res = ocr.classification(code)
         print(res)
         # 对密码进行加密
@@ -73,9 +73,7 @@ class ZfLogin:
 
 
 if __name__ == '__main__':
-    # username = input("请输入学号：")
-    # password = input("请输入密码：")
-    username = "201912340022"
-    password = "Mz1258012581"
+    username = input("请输入学号：")
+    password = input("请输入密码：")
     zf = ZfLogin(username, password)
     zf.login()
