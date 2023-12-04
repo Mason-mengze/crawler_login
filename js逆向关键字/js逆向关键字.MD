@@ -1,5 +1,5 @@
 ## JS逆向中快速搜索定位加密函数技巧总结
-### -[内容来源](https://blog.csdn.net/qiulin_wu/article/details/132106681)
+### -[内容来源](https://blog.csdn.net/qiulin_wu/article/details/132106681)：https://blog.csdn.net/qiulin_wu/article/details/132106681
 一、搜索加密函数常用关键词及说明：
 
 1、 MD5：
