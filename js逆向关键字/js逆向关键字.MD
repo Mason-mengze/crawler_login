@@ -1,5 +1,5 @@
 ## JS逆向中快速搜索定位加密函数技巧总结
-### -内容来源
+### -[内容来源](https://blog.csdn.net/qiulin_wu/article/details/132106681)
 一、搜索加密函数常用关键词及说明：
 
 1、 MD5：
@@ -101,6 +101,7 @@ jsencrypt官方网站
 123456 加密（40位以7c开头）:
 
 `7c4a8d09ca3762af61e59520943dc26494f8941b`
+
 3、HMAC
 原始消息message，随机key，哈希算法，这里采用MD5，使用hmac的代码如下:
 
