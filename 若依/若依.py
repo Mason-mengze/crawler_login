@@ -8,11 +8,12 @@ import base64
 from io import BytesIO
 from urllib import parse
 import requests
-import pytesseract
+# import pytesseract
 from PIL import Image
 from fake_useragent import UserAgent
 import ddddocr
-
+from paddleocr import PaddleOCR
+import easyocr
 
 class RYLogin:
     def __init__(self, username: str, password: str):
@@ -40,15 +41,27 @@ class RYLogin:
 
             uuid = code['uuid']  # 获取uuid
             # 识别验证码1
-            ocr = ddddocr.DdddOcr(show_ad=False)
-            res = ocr.classification(image_code)
-            print(f"验证码为：{res}")
+            # ocr = ddddocr.DdddOcr(show_ad=False)
+            # res = ocr.classification(image_code)
+            # print(f"验证码为：{res}")
             print(f"uuid为：{uuid}")
-            image = Image.open(BytesIO(image_code))
-            custom_config = r'--psm 6 -c tessedit_char_whitelist=0123456789-+=*/?'
-            text = pytesseract.image_to_string(image, config=custom_config)
-            print(f"ocr验证码为：{text}")
+            # CHARS = '0123456789+-*/?='
+            ocr = PaddleOCR(use_angle_cls=False, lang="en")
+            result = ocr.ocr(image_code, cls=True, det=False)
+            print(result)
+            # custom_config = r'--psm 6 -c tessedit_char_whitelist=0123456789-+=*/?'
+            # text = pytesseract.image_to_string(image, config=custom_config)
+            # print(f"ocr验证码为：{text}")
             # 显示图像
+            reader = easyocr.Reader(
+                ['en'],
+                gpu=False,
+                model_storage_directory='model/.',
+                user_network_directory='model/.',
+            )
+            result = reader.readtext(image_code, allowlist ='0123456789+-*/?=')
+            print(f"easyocr验证码为：{result}")
+            image = Image.open(BytesIO(image_code))
             image.show()
 
         # 识别验证码
