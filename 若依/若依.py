@@ -81,7 +81,7 @@ class RYLogin:
 if __name__ == '__main__':
     username = 'admin'
     password = 'admin123'
-    code_api_username = 'mason1'  # 打码平台账号 可无限注册
-    code_api_password = 'mz1258012581'
+    code_api_username = 'xxxx'  # 打码平台账号 可无限注册
+    code_api_password = 'xxxxxxxx'  # 打码平台密码
     zf = RYLogin(username, password)
     zf.login(code_api_username, code_api_password)
