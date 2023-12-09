@@ -13,7 +13,18 @@ import base64
 from fake_useragent import UserAgent
 
 
-def encrypt(text, key="awptech_atexpert"):
+def encrypt(text: str, key: str = "awptech_atexpert") -> str:
+    """
+    进行AES加密
+    加密原理：
+    1.padding ：使用 PKCS7 填充
+    2.mode ：ECB
+    3.key ：awptech_atexpert
+    4.IV：使用自动生成 默认不填
+    :param text:需要加密的文本
+    :param key:加密的key
+    :return:
+    """
     key = key.encode('utf-8')
     text = text.encode('utf-8')
     # 使用 PKCS7 填充

@@ -30,7 +30,7 @@ class RYLogin:
                         }
         self.sess = requests.Session()
 
-    def login(self, code_api_username, code_api_password):
+    def login(self, code_api_username: str, code_api_password: str):
         """模拟登录"""
         # 获取验证码
         code_url = parse.urljoin(self.bast_url, 'prod-api/captchaImage')
@@ -60,7 +60,7 @@ class RYLogin:
             print('登陆成功')
 
     @staticmethod
-    def get_code_text(img_64: str, code_type: int, code_api_username: str, code_api_password: str):
+    def get_code_text(img_64: str, code_type: int, code_api_username: str, code_api_password: str) -> int:
         """
         识别验证码
         :return:
@@ -75,7 +75,7 @@ class RYLogin:
         response = requests.post(api_post_url, data=params).json()
         print(response)
         dictdata = response['data']['recognition']
-        return dictdata
+        return int(dictdata)
 
 
 if __name__ == '__main__':
@@ -83,5 +83,5 @@ if __name__ == '__main__':
     password = 'admin123'
     code_api_username = 'xxxx'  # 打码平台账号 可无限注册
     code_api_password = 'xxxxxxxx'  # 打码平台密码
-    zf = RYLogin(username, password)
-    zf.login(code_api_username, code_api_password)
+    ry = RYLogin(username, password)
+    ry.login(code_api_username, code_api_password)
